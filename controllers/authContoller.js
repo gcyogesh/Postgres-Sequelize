@@ -1,16 +1,18 @@
 import UserModel from "../models/userSchema.js";
+import HttpError from "../models/http-erro.js";
+import sendSuccess from "../utils/SucessHandler.js";
 
-export const createUser = async (req, res) => {
+export const createUser = async (req, res, next) => {
     const { name, email, password } = req.body;        // Inserting the user 
     try {
         const user = await UserModel.create({ name, email, password });
-        res.status(201).json({ msg: "User created successfully", user });
+        sendSuccess(res, "User created sucessfully", {user}, 201)
     } catch (error) {
         console.error("Error creating user:", error);
-        res.status(500).json({ msg: "Internal server error", error: error.message });
+        return next(new HttpError("Hey Man how is life", 404)) 
     }
 };
-
+ 
 
 
 export const getUser = async (req, res) => {                  // Getting data by user

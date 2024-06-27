@@ -10,8 +10,10 @@ Connection()
 
 // router
 import userRouter from './routes/authRoute.js';
+import errorHandler from './middleware/ErroHandler.js';
 app.use('/api/v1/auth', userRouter);
 
+app.use(errorHandler)
 
 app.use("*", (req, res, next)=>{
     res.status(400).json({msg:"Route not found mate "})
